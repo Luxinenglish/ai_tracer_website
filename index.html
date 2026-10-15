@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Tracer — Forensic des agents IA</title>
+    <meta name="description" content="AI Tracer reconstitue l'activité d'un agent IA sur un poste, la recoupe avec les journaux système et produit un rapport d'expertise vérifiable.">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{margin:0;background:#FFFFFF}
+        a{color:#001D91}a:hover{color:#E0001A}
+        :focus-visible{outline:3px solid #001D91;outline-offset:2px}
+        img{max-width:100%}
+    </style>
+</head>
+<body>
+<div style="width: 100%; min-height: 100vh; background: #FFFFFF; color: #0B1533; font-family: 'IBM Plex Sans', sans-serif; font-size: 17px; line-height: 1.6">
+
+    <header style="border-bottom: 1px solid #DDE1EA; background: #FFFFFF">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+            <a href="#top" style="display: flex; align-items: center; text-decoration: none">
+                <img src="logo.png" alt="AI Tracer — Forensic Tool" style="height: 52px; width: auto; display: block">
+            </a>
+            <nav aria-label="Navigation principale" style="display: flex; flex-wrap: wrap; align-items: center; gap: 28px; font-size: 15px">
+                <a href="#fonctionnement" style="color: #34405E; text-decoration: none; font-weight: 500">Fonctionnement</a>
+                <a href="#detections" style="color: #34405E; text-decoration: none; font-weight: 500">Détections</a>
+                <a href="#rapport" style="color: #34405E; text-decoration: none; font-weight: 500">Rapport</a>
+                <a href="#garanties" style="color: #34405E; text-decoration: none; font-weight: 500">Garanties</a>
+                <a href="#contact" style="background: #E0001A; color: #FFFFFF; text-decoration: none; font-weight: 600; padding: 10px 18px; border-radius: 6px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center">Demander une démonstration</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="top" style="max-width: 1200px; margin: 0 auto; padding: 96px 24px 88px; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+        <div style="flex: 1 1 480px; min-width: 0">
+            <p style="margin: 0 0 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #001D91; font-weight: 500">Forensic des agents IA</p>
+            <h1 style="margin: 0 0 24px; font-family: 'Archivo', sans-serif; font-size: clamp(36px, 7vw, 58px); line-height: 1.04; font-weight: 800; letter-spacing: -0.025em; color: #0B1533">Ce que l'IA a fait sur ce poste, reconstitué et prouvé.</h1>
+            <p style="margin: 0 0 36px; font-size: 19px; color: #4A5370; max-width: 560px">AI Tracer reconstitue l'activité d'un agent IA à partir des traces locales, la recoupe avec les journaux du système et produit un rapport d'expertise vérifiable, avec sa chaîne de possession.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 14px">
+                <a href="#contact" style="background: #E0001A; color: #FFFFFF; text-decoration: none; font-weight: 600; padding: 14px 24px; border-radius: 6px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">Demander une démonstration</a>
+                <a href="#rapport" style="border: 2px solid #001D91; color: #001D91; text-decoration: none; font-weight: 600; padding: 12px 22px; border-radius: 6px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">Voir ce que contient le rapport</a>
+            </div>
+            <p style="margin: 28px 0 0; font-size: 14px; color: #5A6380">Version actuelle : Claude Code (CLI, IDE) et Claude Desktop.</p>
+        </div>
+        <div style="flex: 1 1 460px; min-width: 0">
+            <div style="background: #0B1533; border-radius: 10px; overflow: hidden; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.75; box-shadow: 0 24px 48px -24px rgba(11,21,51,0.45)">
+                <div style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid #22305A; color: #9AA6C4; font-size: 12px">
+                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #E0001A"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #FFFFFF"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #3D5BD9"></span>
+                    <span style="margin-left: 8px">clé USB — E:\</span>
+                </div>
+                <div style="padding: 20px 22px; overflow-x: auto">
+                    <div style="white-space: pre; color: #F2F4FA"><span style="color: #FF4D5E">&gt;</span> aitrace.exe --case CAS-42 --all-users --since 7d \
+                        --tz local --collect-raw --out E:\cas42\run-01</div>
+                    <div style="white-space: pre; color: #9AA6C4; margin-top: 14px">Sources ouvertes en lecture seule, hachées en SHA-256
+                        Rapport écrit dans E:\cas42\run-01 :</div>
+                    <div style="white-space: pre; color: #D3D9EA; margin-top: 6px">  report.html          chains.json
+                        findings.json        findings.sarif.json
+                        events.json / .csv   correlation.json
+                        case.json            manifest.json
+                        evidence/            SHA256SUMS.txt</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section aria-label="Principes" style="background: #001D91">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 34px 24px; display: flex; flex-wrap: wrap; gap: 24px 40px; justify-content: space-between; color: #FFFFFF">
+            <div style="flex: 1 1 220px; min-width: 0"><div style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 17px">Un exécutable, rien à installer</div><div style="font-size: 14px; color: #D6DDF5">Lancé depuis une clé USB, sans runtime.</div></div>
+            <div style="flex: 1 1 220px; min-width: 0"><div style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 17px">Lecture seule</div><div style="font-size: 14px; color: #D6DDF5">Sans écriture ni verrou sur les sources.</div></div>
+            <div style="flex: 1 1 220px; min-width: 0"><div style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 17px">SHA-256 revérifié</div><div style="font-size: 14px; color: #D6DDF5">Chaque source hachée, puis contrôlée après lecture.</div></div>
+            <div style="flex: 1 1 220px; min-width: 0"><div style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 17px">Windows, Linux, macOS</div><div style="font-size: 14px; color: #D6DDF5">Poste en fonctionnement ou image montée.</div></div>
+        </div>
+    </section>
+
+    <section id="fonctionnement" style="max-width: 1200px; margin: 0 auto; padding: 104px 24px 40px">
+        <p style="margin: 0 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #001D91; font-weight: 500">Fonctionnement</p>
+        <h2 style="margin: 0 0 16px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: clamp(30px, 5vw, 40px); line-height: 1.12; letter-spacing: -0.02em; max-width: 760px">Trois questions, une seule analyse.</h2>
+        <p style="margin: 0 0 48px; color: #4A5370; max-width: 680px">Qu'a fait l'IA ? Qu'a fait le système pendant ce temps ? Quelque chose de suspect s'est-il produit ? AI Tracer répond aux trois en un passage.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px">
+            <div style="flex: 1 1 300px; min-width: 0; background: #F5F6F9; border: 1px solid #DDE1EA; border-radius: 10px; padding: 28px">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #E0001A; font-weight: 500; margin-bottom: 14px">01 — Collecter</div>
+                <h3 style="margin: 0 0 10px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 22px">L'activité de l'IA</h3>
+                <p style="margin: 0; color: #4A5370; font-size: 15.5px">Transcripts et sous-agents, prompts, réponses, commandes, fichiers modifiés, accès web et MCP, configuration, hooks et extensions. Les identifiants ne sont jamais lus.</p>
+            </div>
+            <div style="flex: 1 1 300px; min-width: 0; background: #F5F6F9; border: 1px solid #DDE1EA; border-radius: 10px; padding: 28px">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #E0001A; font-weight: 500; margin-bottom: 14px">02 — Corréler</div>
+                <h3 style="margin: 0 0 10px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 22px">Avec les journaux système</h3>
+                <p style="margin: 0; color: #4A5370; font-size: 15.5px">Chaque processus est rattaché à la commande IA qui l'a lancé. Ce qui s'est passé pendant l'activité de l'IA sans venir d'elle ressort en priorité.</p>
+            </div>
+            <div style="flex: 1 1 300px; min-width: 0; background: #F5F6F9; border: 1px solid #DDE1EA; border-radius: 10px; padding: 28px">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #E0001A; font-weight: 500; margin-bottom: 14px">03 — Signaler</div>
+                <h3 style="margin: 0 0 10px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 22px">Ce qui doit être examiné</h3>
+                <p style="margin: 0; color: #4A5370; font-size: 15.5px">Injections de prompt, commandes dangereuses, caractères masqués, indicateurs de compromission : classés par gravité, chacun renvoyé à sa source.</p>
+            </div>
+        </div>
+    </section>
+
+    <section aria-labelledby="scenario-titre" style="max-width: 1200px; margin: 0 auto; padding: 64px 24px 40px">
+        <div style="background: #0B1533; color: #FFFFFF; border-radius: 12px; padding: clamp(28px, 5vw, 44px) clamp(20px, 4vw, 40px)">
+            <h2 id="scenario-titre" style="margin: 0 0 10px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.015em">Un récit, pas une liste d'alertes.</h2>
+            <p style="margin: 0 0 40px; color: #C3CBE0; max-width: 720px">AI Tracer relie une injection reçue par un canal non fiable aux actions de la même session qui ont suivi. Exemple de scénario reconstitué :</p>
+            <ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 16px">
+                <li style="flex: 1 1 240px; min-width: 0; border: 1px solid #2E3E6E; border-radius: 8px; padding: 20px"><div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #FF4D5E; margin-bottom: 8px">T</div><div style="font-weight: 600; margin-bottom: 4px">Injection reçue</div><div style="font-size: 14.5px; color: #AEB8D2">Dans le résultat d'une page web lue par l'agent.</div></li>
+                <li style="flex: 1 1 240px; min-width: 0; border: 1px solid #2E3E6E; border-radius: 8px; padding: 20px"><div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #FF4D5E; margin-bottom: 8px">T + 6 s</div><div style="font-weight: 600; margin-bottom: 4px">Lecture d'une clé SSH</div><div style="font-size: 14.5px; color: #AEB8D2">Fichier sensible ouvert par l'agent.</div></li>
+                <li style="flex: 1 1 240px; min-width: 0; border: 1px solid #2E3E6E; border-radius: 8px; padding: 20px"><div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #FF4D5E; margin-bottom: 8px">T + 13 s</div><div style="font-weight: 600; margin-bottom: 4px">Envoi réseau</div><div style="font-size: 14.5px; color: #AEB8D2">Accès sortant dans la même session.</div></li>
+            </ol>
+        </div>
+    </section>
+
+    <section id="detections" style="max-width: 1200px; margin: 0 auto; padding: 88px 24px 40px">
+        <p style="margin: 0 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #001D91; font-weight: 500">Détections</p>
+        <h2 style="margin: 0 0 16px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: clamp(30px, 5vw, 40px); line-height: 1.12; letter-spacing: -0.02em; max-width: 760px">Orienter l'examen, sans décider à la place de l'expert.</h2>
+        <p style="margin: 0 0 44px; color: #4A5370; max-width: 700px">Chaque signalement porte sa gravité, ses techniques MITRE ATT&amp;CK, sa catégorie OWASP LLM et le fichier et la ligne d'où il vient.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 1px; background: #DDE1EA; border: 1px solid #DDE1EA; border-radius: 10px; overflow: hidden">
+            <div style="flex: 1 1 360px; min-width: 0; background: #FFFFFF; padding: 28px"><h3 style="margin: 0 0 8px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px">Injection de prompt</h3><p style="margin: 0; font-size: 15px; color: #4A5370">Dans les sorties d'outils, fichiers lus, pages web, résultats MCP et contenus collés.</p></div>
+            <div style="flex: 1 1 360px; min-width: 0; background: #FFFFFF; padding: 28px"><h3 style="margin: 0 0 8px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px">Caractères Unicode masqués</h3><p style="margin: 0; font-size: 15px; color: #4A5370">Balises Unicode, largeur nulle, contrôles bidirectionnels. Le message caché est décodé.</p></div>
+            <div style="flex: 1 1 360px; min-width: 0; background: #FFFFFF; padding: 28px"><h3 style="margin: 0 0 8px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px">Commandes suspectes</h3><p style="margin: 0; font-size: 15px; color: #4A5370">Téléchargement puis exécution, reverse shell, vol d'identifiants, effacement de journaux, persistance. Les commandes encodées sont déobfusquées.</p></div>
+            <div style="flex: 1 1 360px; min-width: 0; background: #FFFFFF; padding: 28px"><h3 style="margin: 0 0 8px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px">Indicateurs de compromission</h3><p style="margin: 0; font-size: 15px; color: #4A5370">Hôtes, IP et empreintes recoupés avec votre propre liste d'IOC.</p></div>
+            <div style="flex: 1 1 360px; min-width: 0; background: #FFFFFF; padding: 28px"><h3 style="margin: 0 0 8px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px">Intégrité des journaux</h3><p style="margin: 0; font-size: 15px; color: #4A5370">Effacements, journaux commencés trop tard, journalisation des processus absente.</p></div>
+            <div style="flex: 1 1 360px; min-width: 0; background: #FFFFFF; padding: 28px"><h3 style="margin: 0 0 8px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px">Mode permissif</h3><p style="margin: 0; font-size: 15px; color: #4A5370">Une commande suspecte lancée sans contrôle des permissions voit sa gravité relevée.</p></div>
+        </div>
+    </section>
+
+    <section id="rapport" style="max-width: 1200px; margin: 0 auto; padding: 88px 24px 40px; display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start">
+        <div style="flex: 1 1 420px; min-width: 0">
+            <p style="margin: 0 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #001D91; font-weight: 500">Rapport</p>
+            <h2 style="margin: 0 0 16px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: clamp(30px, 5vw, 40px); line-height: 1.12; letter-spacing: -0.02em">Un dossier auto-contenu, prêt à verser.</h2>
+            <p style="margin: 0 0 20px; color: #4A5370">Un rapport HTML autonome, sans ressource externe, pour la lecture. Des fichiers structurés pour vos outils. Des empreintes pour tout vérifier.</p>
+            <p style="margin: 0; color: #4A5370">Chaque événement de la chronologie renvoie à son origine exacte, fichier et ligne, pour revenir à la source.</p>
+        </div>
+        <div style="flex: 1 1 520px; min-width: 0; overflow-x: auto">
+            <table style="width: 100%; border-collapse: collapse; font-size: 15px">
+                <caption style="text-align: left; color: #5A6380; font-size: 13px; padding-bottom: 10px">Contenu du dossier de sortie</caption>
+                <tbody>
+                <tr style="border-top: 1px solid #DDE1EA"><th scope="row" style="text-align: left; padding: 14px 16px 14px 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 14px; white-space: nowrap; color: #001D91">report.html</th><td style="padding: 14px 0; color: #4A5370">Synthèse, détections, chronologie filtrable, chaîne de possession</td></tr>
+                <tr style="border-top: 1px solid #DDE1EA"><th scope="row" style="text-align: left; padding: 14px 16px 14px 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 14px; white-space: nowrap; color: #001D91">findings.sarif.json</th><td style="padding: 14px 0; color: #4A5370">Signalements au format SARIF 2.1.0</td></tr>
+                <tr style="border-top: 1px solid #DDE1EA"><th scope="row" style="text-align: left; padding: 14px 16px 14px 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 14px; white-space: nowrap; color: #001D91">chains.json</th><td style="padding: 14px 0; color: #4A5370">Scénarios injection → actions</td></tr>
+                <tr style="border-top: 1px solid #DDE1EA"><th scope="row" style="text-align: left; padding: 14px 16px 14px 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 14px; white-space: nowrap; color: #001D91">events.csv</th><td style="padding: 14px 0; color: #4A5370">Chronologie complète, protégée contre l'injection de formules</td></tr>
+                <tr style="border-top: 1px solid #DDE1EA"><th scope="row" style="text-align: left; padding: 14px 16px 14px 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 14px; white-space: nowrap; color: #001D91">manifest.json</th><td style="padding: 14px 0; color: #4A5370">Contexte d'exécution et empreinte de chaque source</td></tr>
+                <tr style="border-top: 1px solid #DDE1EA; border-bottom: 1px solid #DDE1EA"><th scope="row" style="text-align: left; padding: 14px 16px 14px 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 14px; white-space: nowrap; color: #001D91">SHA256SUMS.txt</th><td style="padding: 14px 0; color: #4A5370">Empreintes de tous les fichiers du rapport</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="garanties" style="max-width: 1200px; margin: 0 auto; padding: 88px 24px 40px">
+        <p style="margin: 0 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #001D91; font-weight: 500">Garanties</p>
+        <h2 style="margin: 0 0 44px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: clamp(30px, 5vw, 40px); line-height: 1.12; letter-spacing: -0.02em; max-width: 760px">Conçu pour tenir devant le contradictoire.</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 40px 48px">
+            <div style="flex: 1 1 320px; min-width: 0"><h3 style="margin: 0 0 8px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 20px">Chaîne de possession</h3><p style="margin: 0; color: #4A5370; font-size: 15.5px">Affaire, examinateurs, scellés, machine, compte, ligne de commande, version de l'outil et empreinte agrégée des sources, consignés à chaque analyse.</p></div>
+            <div style="flex: 1 1 320px; min-width: 0"><h3 style="margin: 0 0 8px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 20px">Écriture confinée</h3><p style="margin: 0; color: #4A5370; font-size: 15.5px">Seul le dossier de sortie est écrit. L'outil refuse un dossier non vide ou situé dans une zone de preuve.</p></div>
+            <div style="flex: 1 1 320px; min-width: 0"><h3 style="margin: 0 0 8px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 20px">Gestion des affaires</h3><p style="margin: 0; color: #4A5370; font-size: 15.5px">Un registre suit chaque affaire, sur plusieurs machines, et permet de reprendre l'analyse là où elle s'était arrêtée.</p></div>
+            <div style="flex: 1 1 320px; min-width: 0"><h3 style="margin: 0 0 8px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 20px">Limites affichées</h3><p style="margin: 0; color: #4A5370; font-size: 15.5px">La détection est heuristique et le dit. Les angles morts, comme une journalisation absente, sont signalés dans le rapport.</p></div>
+        </div>
+    </section>
+
+    <section aria-labelledby="pourqui-titre" style="max-width: 1200px; margin: 0 auto; padding: 88px 24px 40px">
+        <h2 id="pourqui-titre" style="margin: 0 0 32px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.015em">Pour qui</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px">
+            <div style="flex: 1 1 300px; min-width: 0; border-top: 3px solid #E0001A; padding-top: 18px"><h3 style="margin: 0 0 6px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px">Experts judiciaires</h3><p style="margin: 0; color: #4A5370; font-size: 15px">Un rapport structuré et traçable à joindre à l'expertise.</p></div>
+            <div style="flex: 1 1 300px; min-width: 0; border-top: 3px solid #E0001A; padding-top: 18px"><h3 style="margin: 0 0 6px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px">Services d'enquête</h3><p style="margin: 0; color: #4A5370; font-size: 15px">Une analyse sur poste saisi ou image disque, hors ligne.</p></div>
+            <div style="flex: 1 1 300px; min-width: 0; border-top: 3px solid #E0001A; padding-top: 18px"><h3 style="margin: 0 0 6px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px">Réponse à incident</h3><p style="margin: 0; color: #4A5370; font-size: 15px">Comprendre vite ce qu'un agent IA compromis a touché.</p></div>
+        </div>
+    </section>
+
+    <section id="contact" style="max-width: 1200px; margin: 0 auto; padding: 96px 24px 104px">
+        <div style="background: #F5F6F9; border: 1px solid #DDE1EA; border-radius: 12px; padding: clamp(28px, 5vw, 48px) clamp(20px, 4vw, 40px); display: flex; flex-wrap: wrap; gap: 48px">
+            <div style="flex: 1 1 380px; min-width: 0">
+                <h2 style="margin: 0 0 16px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: clamp(28px, 5vw, 36px); line-height: 1.12; letter-spacing: -0.02em">Demander une démonstration</h2>
+                <p style="margin: 0 0 20px; color: #4A5370">AI Tracer est réservé aux professionnels et distribué sous licence. Nous vous présentons l'outil et un rapport type sur un jeu de données de démonstration.</p>
+                <p style="margin: 0; color: #4A5370">Licence : [VOS FORMULES ET TARIFS]<br>Contact : <a href="mailto:[VOTRE EMAIL]">[VOTRE EMAIL]</a></p>
+            </div>
+            <form action="[URL DU SERVICE DE FORMULAIRE]" method="post" style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 18px" aria-label="Demande de démonstration">
+                <div style="display: flex; flex-direction: column; gap: 6px"><label for="nom" style="font-size: 14px; font-weight: 600">Nom</label><input id="nom" name="nom" required type="text" autocomplete="name" style="background: #FFFFFF; border: 1px solid #B9C0D0; border-radius: 6px; color: #0B1533; padding: 12px 14px; font-size: 16px; min-height: 44px; box-sizing: border-box; font-family: inherit"></div>
+                <div style="display: flex; flex-direction: column; gap: 6px"><label for="org" style="font-size: 14px; font-weight: 600">Organisation</label><input id="org" name="org" type="text" autocomplete="organization" style="background: #FFFFFF; border: 1px solid #B9C0D0; border-radius: 6px; color: #0B1533; padding: 12px 14px; font-size: 16px; min-height: 44px; box-sizing: border-box; font-family: inherit"></div>
+                <div style="display: flex; flex-direction: column; gap: 6px"><label for="mail" style="font-size: 14px; font-weight: 600">Adresse e-mail professionnelle</label><input id="mail" name="mail" required type="email" autocomplete="email" style="background: #FFFFFF; border: 1px solid #B9C0D0; border-radius: 6px; color: #0B1533; padding: 12px 14px; font-size: 16px; min-height: 44px; box-sizing: border-box; font-family: inherit"></div>
+                <div style="display: flex; flex-direction: column; gap: 6px"><label for="besoin" style="font-size: 14px; font-weight: 600">Votre besoin</label><textarea id="besoin" name="besoin" rows="4" style="background: #FFFFFF; border: 1px solid #B9C0D0; border-radius: 6px; color: #0B1533; padding: 12px 14px; font-size: 16px; box-sizing: border-box; font-family: inherit; resize: vertical"></textarea></div>
+                <button type="submit" style="align-self: flex-start; background: #E0001A; color: #FFFFFF; border: none; font-weight: 600; font-size: 16px; padding: 14px 26px; border-radius: 6px; min-height: 48px; cursor: pointer; font-family: inherit">Envoyer la demande</button>
+            </form>
+        </div>
+    </section>
+
+    <footer style="border-top: 1px solid #DDE1EA">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 28px 24px 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; font-size: 13.5px; color: #5A6380">
+            <img src="logo.png" alt="AI Tracer" style="height: 36px; width: auto; display: block">
+            <span>© 2026 [NOM DE L'ENTREPRISE] — Mentions légales</span>
+            <span>AI Tracer n'est pas affilié à Anthropic. Claude est une marque d'Anthropic.</span>
+        </div>
+    </footer>
+
+</div>
+</body>
+</html>
