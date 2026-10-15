@@ -7,18 +7,11 @@
     <meta name="description" content="AI Tracer reconstitue l'activité d'un agent IA sur un poste, la recoupe avec les journaux système et produit un rapport d'expertise vérifiable.">
     <meta name="author" content="Joam Brochard">
     <meta name="copyright" content="© 2026 Joam Brochard. Tous droits réservés.">
-    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="icon" type="image/png" href="media/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        *,*::before,*::after{box-sizing:border-box}
-        html{scroll-behavior:smooth}
-        body{margin:0;background:#FFFFFF}
-        a{color:#001D91}a:hover{color:#E0001A}
-        :focus-visible{outline:3px solid #001D91;outline-offset:2px}
-        img{max-width:100%}
-    </style>
+    <link rel="stylesheet" href="css/base.css">
 </head>
 <body>
 <div style="width: 100%; min-height: 100vh; background: #FFFFFF; color: #0B1533; font-family: 'IBM Plex Sans', sans-serif; font-size: 17px; line-height: 1.6">
@@ -26,7 +19,7 @@
     <header style="border-bottom: 1px solid #DDE1EA; background: #FFFFFF">
         <div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
             <a href="#top" style="display: flex; align-items: center; text-decoration: none">
-                <img src="logo.png" alt="AI Tracer — Forensic Tool" style="height: 52px; width: auto; display: block">
+                <img src="media/logo.png" alt="AI Tracer — Forensic Tool" style="height: 52px; width: auto; display: block">
             </a>
             <nav aria-label="Navigation principale" style="display: flex; flex-wrap: wrap; align-items: center; gap: 28px; font-size: 15px">
                 <a href="#fonctionnement" style="color: #34405E; text-decoration: none; font-weight: 500">Fonctionnement</a>
@@ -85,8 +78,8 @@ Rapport écrit dans E:\cas42\run-01 :</div>
         <h2 id="trailer-titre" style="margin: 0 0 32px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: clamp(30px, 5vw, 40px); line-height: 1.12; letter-spacing: -0.02em; max-width: 760px">AI Tracer en quelques secondes.</h2>
         <div style="position: relative; border-radius: 12px; overflow: hidden; background: #0B1533; box-shadow: 0 24px 48px -24px rgba(11,21,51,0.45)">
             <video id="trailer" preload="metadata" style="width: 100%; aspect-ratio: 16 / 9; height: auto; display: block; background: #0B1533">
-                <source src="trailer.mp4" type="video/mp4">
-                Votre navigateur ne peut pas lire cette vidéo. <a href="trailer.mp4" style="color:#FFFFFF">Télécharger le trailer</a>.
+                <source src="media/trailer.mp4" type="video/mp4">
+                Votre navigateur ne peut pas lire cette vidéo. <a href="media/trailer.mp4" style="color:#FFFFFF">Télécharger le trailer</a>.
             </video>
             <button id="trailer-play" type="button" aria-label="Lire le trailer" style="position: absolute; inset: 0; width: 100%; height: 100%; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
                 <span style="display: flex; align-items: center; justify-content: center; width: 84px; height: 84px; border-radius: 50%; background: #E0001A; box-shadow: 0 12px 28px -8px rgba(224,0,26,0.6)">
@@ -218,7 +211,7 @@ Rapport écrit dans E:\cas42\run-01 :</div>
 
     <footer style="border-top: 1px solid #DDE1EA">
         <div style="max-width: 1200px; margin: 0 auto; padding: 28px 24px 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; font-size: 13.5px; color: #5A6380">
-            <img src="logo.png" alt="AI Tracer" style="height: 36px; width: auto; display: block">
+            <img src="media/logo.png" alt="AI Tracer" style="height: 36px; width: auto; display: block">
             <span>© 2026 Joam Brochard — Tous droits réservés — <a href="mentions-legales.html" style="color: #5A6380; text-decoration: underline">Mentions légales</a></span>
         </div>
     </footer>

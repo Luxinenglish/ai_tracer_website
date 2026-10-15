@@ -1,0 +1,6 @@
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#FFFFFF}
+a{color:#001D91}a:hover{color:#E0001A}
+:focus-visible{outline:3px solid #001D91;outline-offset:2px}
+img{max-width:100%}
