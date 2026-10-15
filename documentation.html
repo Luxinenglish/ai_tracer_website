@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Tracer — Documentation</title>
+<meta name="description" content="Documentation d'AI Tracer : utilisation, options, gestion des affaires, sources analysées, corrélation système, détections et rapport.">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Mise en page : barre latérale de sommaire fixe + colonne de lecture ; une colonne sur mobile */
+:root {
+  --bg: #FFFFFF; --bg-soft: #F5F6F9; --fg: #0B1533; --muted: #4A5370; --line: #DDE1EA;
+  --red: #E0001A; --blue: #001D91; --code-bg: #0B1533; --code-fg: #E9ECF4; --code-muted: #9AA6C4;
+  --display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --body: 'IBM Plex Sans', 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0B1120; --bg-soft: #131B30; --fg: #E6EAF4; --muted: #A3ADC6; --line: #26304A;
+          --red: #FF5468; --blue: #8EA4FF; --code-bg: #060A16; color-scheme: dark; }
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16.5px/1.65 var(--body); }
+a { color: var(--blue); }
+a:hover { color: var(--red); }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+
+.layout { display: flex; align-items: flex-start; max-width: 1280px; margin: 0 auto; }
+aside { position: sticky; top: 0; flex: 0 0 280px; height: 100vh; overflow-y: auto;
+        padding: 28px 20px 28px 28px; border-right: 1px solid var(--line); }
+.brand { display: block; margin-bottom: 28px; }
+.brand img { width: 170px; height: auto; display: block; }
+@media (prefers-color-scheme: dark) { .brand { border-radius: 8px; padding: 10px; width: max-content; } }
+.toc-label { font: 600 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin: 0 0 12px; }
+aside ol { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+aside li { counter-increment: s; }
+aside li a { display: flex; gap: 10px; padding: 7px 10px; border-radius: 6px; color: var(--muted);
+             text-decoration: none; font-size: 14.5px; line-height: 1.35; }
+aside li a::before { content: counter(s, decimal-leading-zero); font: 500 12px/1.6 var(--mono); color: var(--line); min-width: 18px; }
+aside li a:hover { background: var(--bg-soft); color: var(--fg); }
+aside li a.active { background: var(--bg-soft); color: var(--blue); font-weight: 600; }
+aside li a.active::before { color: var(--red); }
+
+main { flex: 1 1 auto; min-width: 0; padding: 48px 56px 96px; }
+header.doc-head { padding-bottom: 32px; margin-bottom: 8px; border-bottom: 1px solid var(--line); }
+.eyebrow { font: 600 13px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin: 0 0 14px; }
+h1 { font: 800 clamp(32px, 5vw, 46px)/1.08 var(--display); letter-spacing: -.02em; margin: 0 0 14px; text-wrap: balance; }
+.lead { font-size: 18.5px; color: var(--muted); max-width: 62ch; margin: 0; }
+.meta { margin-top: 18px; font: 13px var(--mono); color: var(--muted); }
+
+section { padding-top: 40px; max-width: 900px; }
+h2 { font: 800 30px/1.15 var(--display); letter-spacing: -.015em; margin: 0 0 18px; text-wrap: balance; }
+main p { max-width: 70ch; margin: 0 0 16px; }
+h3 { font: 700 19px/1.3 var(--display); margin: 30px 0 12px; }
+main ul, main ol { max-width: 70ch; padding-left: 22px; margin: 0 0 18px; }
+main li { margin: 6px 0; }
+main li::marker { color: var(--red); }
+code { font: 0.88em var(--mono); background: var(--bg-soft); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; white-space: nowrap; }
+
+.code { position: relative; margin: 0 0 20px; }
+pre { margin: 0; background: var(--code-bg); color: var(--code-fg); border-radius: 10px; padding: 18px 20px; overflow-x: auto; }
+pre code { background: none; border: 0; padding: 0; color: inherit; font-size: 13.5px; line-height: 1.7; overflow-wrap: normal; white-space: pre; }
+.copy { position: absolute; top: 10px; right: 10px; font: 500 12px var(--mono); color: var(--code-muted);
+        background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); border-radius: 6px; padding: 6px 10px; cursor: pointer; min-height: 32px; }
+.copy:hover { color: #fff; border-color: rgba(255,255,255,.35); }
+
+.table-wrap { overflow-x: auto; margin: 0 0 22px; border: 1px solid var(--line); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th { text-align: left; font: 600 13px/1.3 var(--body); color: var(--muted); background: var(--bg-soft); padding: 11px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { white-space: nowrap; }
+td:first-child code { color: var(--blue); }
+
+footer { margin-top: 72px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 13.5px; color: var(--muted); }
+
+.menu-btn { display: none; }
+@media (max-width: 900px) {
+  .layout { display: block; }
+  aside { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); padding: 16px max(16px, env(safe-area-inset-left)); }
+  .brand { margin-bottom: 12px; }
+  .brand img { width: 140px; }
+  .menu-btn { display: inline-flex; align-items: center; min-height: 44px; font: 600 14px var(--body); color: var(--fg);
+              background: var(--bg-soft); border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; cursor: pointer; }
+  aside nav { display: none; margin-top: 12px; }
+  aside nav.open { display: block; }
+  main { padding: 32px max(16px, env(safe-area-inset-right)) 72px max(16px, env(safe-area-inset-left)); }
+  td:first-child { white-space: normal; }
+}
+@media print {
+  aside, .copy { display: none; }
+  main { padding: 0; }
+  pre { white-space: pre-wrap; }
+  section { break-inside: avoid-page; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="layout">
+<aside>
+  <a class="brand" href="index.html"><img src="logo.png" alt="AI Tracer — Forensic Tool"></a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="toc">Sommaire</button>
+  <nav id="toc" aria-label="Sommaire">
+    <p class="toc-label">Sommaire</p>
+    <ol>
+<li><a href="#presentation">Présentation</a></li>
+<li><a href="#installation-et-compilation">Installation et compilation</a></li>
+<li><a href="#demarrage-rapide">Démarrage rapide</a></li>
+<li><a href="#reference-des-options">Référence des options</a></li>
+<li><a href="#gestion-des-affaires">Gestion des affaires</a></li>
+<li><a href="#fiche-d-affaire-et-chaine-de-possession">Fiche d'affaire et chaîne de possession</a></li>
+<li><a href="#sources-analysees">Sources analysées</a></li>
+<li><a href="#correlation-avec-les-journaux-systeme">Corrélation avec les journaux système</a></li>
+<li><a href="#detections-et-scenarios">Détections et scénarios</a></li>
+<li><a href="#rapport-produit">Rapport produit</a></li>
+<li><a href="#recettes">Recettes</a></li>
+<li><a href="#limites-connues-et-bonnes-pratiques">Limites connues et bonnes pratiques</a></li>
+    </ol>
+  </nav>
+</aside>
+<main id="top">
+  <header class="doc-head">
+    <p class="eyebrow">Documentation</p>
+    <h1>AI Tracer</h1>
+    <p class="lead">Forensic de l'activité des agents IA : utilisation, options, gestion des affaires, sources analysées, corrélation système, détections et rapport.</p>
+    <p class="meta">Binaire : <code>aitrace</code> · Mise à jour : 15 octobre 2026</p>
+  </header>
+<section><h2 id="presentation">Présentation</h2>
+<p>AI Tracer reconstitue l'activité d'une IA sur un poste à partir des traces locales, et en produit un rapport d'expertise. La version actuelle couvre Claude Code (CLI, IDE) et Claude Desktop.</p>
+<p>L'outil répond à trois questions : qu'a fait l'IA, qu'a fait le système pendant ce temps, et quelque chose de suspect s'est-il produit (injection de prompt, commande dangereuse, exfiltration) ?</p>
+<h3>Principes forensic</h3>
+<ul>
+<li><strong>Un exécutable natif par OS</strong> : sans Python, sans runtime, sans installation. Il se lance depuis une clé USB.</li>
+<li><strong>Lecture seule</strong> : les sources sont ouvertes sans écriture et sans verrou. Sous Linux, <code>O_NOATIME</code> évite de modifier les dates d'accès.</li>
+<li><strong>Hachage systématique</strong> : chaque fichier lu est haché en SHA-256, puis re-vérifié après lecture.</li>
+<li><strong>Écriture confinée</strong> : seul le dossier de sortie est écrit. L'outil refuse un dossier non vide ou situé dans une zone de preuve.</li>
+<li><strong>Traçabilité</strong> : chaque événement du rapport renvoie à sa source (<code>fichier:ligne</code>).</li>
+</ul>
+</section><section><h2 id="installation-et-compilation">Installation et compilation</h2>
+<p>Aucune installation n'est nécessaire : on copie le binaire adapté à l'OS cible, par exemple sur une clé USB, et on le lance.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Plateforme</th>
+<th>Architectures</th>
+<th>Remarque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td>x64, ARM64</td>
+<td>Runtime C lié statiquement, aucune DLL requise</td>
+</tr>
+<tr>
+<td>Linux</td>
+<td>x64, ARM64</td>
+<td>Binaires statiques (musl)</td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>Apple Silicon, Intel</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Compiler soi-même</h3>
+<div class="code"><button class="copy" type="button" aria-label="Copier le code">Copier</button><pre><code>cargo build --release          # binaire : target/release/aitrace(.exe)
+cargo test                     # tests unitaires
+</code></pre></div>
+<p>Le workflow <code>.github/workflows/build.yml</code> lance d'abord <code>cargo test</code>, puis produit les binaires des six cibles avec leurs empreintes.</p>
+<p>Les tests couvrent les fonctions déterministes : parsing des dates, base64, détection d'injections et de commandes, masquage des secrets, classement des journaux et remappage de chemins.</p>
+<p><strong>Droits nécessaires</strong> : un compte simple suffit pour analyser son propre profil. Il faut être administrateur ou root pour <code>--all-users</code> et pour lire les journaux du système.</p>
+<h3>Tutoriel vidéo</h3>
+<p>Dévérouillage du logiciel avec l'utilisation d'une clé de sécurité (YubiKey).</p>
+<div style="position: relative; border-radius: 10px; overflow: hidden; background: var(--code-bg); margin: 0 0 20px">
+  <video id="tuto1" preload="metadata" style="width: 100%; aspect-ratio: 16 / 9; height: auto; display: block; background: var(--code-bg)">
+    <source src="ai-tracer-tutoriel-1.mp4" type="video/mp4">
+    Votre navigateur ne peut pas lire cette vidéo. <a href="ai-tracer-tutoriel-1.mp4">Télécharger le tutoriel</a>.
+  </video>
+  <button id="tuto1-play" type="button" aria-label="Lire le tutoriel" style="position: absolute; inset: 0; width: 100%; height: 100%; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
+    <span style="display: flex; align-items: center; justify-content: center; width: 72px; height: 72px; border-radius: 50%; background: var(--red); box-shadow: 0 12px 28px -8px rgba(224,0,26,0.6)">
+      <svg width="26" height="30" viewBox="0 0 30 34" fill="none" aria-hidden="true"><path d="M28 15.27a2 2 0 0 1 0 3.46L4 32.6A2 2 0 0 1 1 30.87V3.13A2 2 0 0 1 4 1.4l24 13.87Z" fill="#FFFFFF"/></svg>
+    </span>
+  </button>
+</div>
+</section><section><h2 id="demarrage-rapide">Démarrage rapide</h2>
+<p>Le cas le plus courant : analyser les 7 derniers jours d'un poste en fonctionnement, rattachés à une affaire.</p>
+<div class="code"><button class="copy" type="button" aria-label="Copier le code">Copier</button><pre><code># 1. Créer l'affaire (une seule fois)
+aitrace case new CAS-42 --case-desc &quot;Poste RH compromis&quot; --examiner &quot;J. Brochard&quot;
+
+# 2. Lancer l'analyse (en administrateur / root pour les journaux système)
+aitrace --case CAS-42 --all-users --since 7d --tz local --out E:\cas42\run-01
+
+# 3. Ouvrir le rapport
+E:\cas42\run-01\report.html
+</code></pre></div>
+<p>Sans argument, depuis un terminal, <code>aitrace</code> pose les questions utiles (affaire, examinateur, dossier de sortie). Sans <code>--out</code>, un dossier <code>rapport-&lt;affaire&gt;-&lt;horodatage&gt;</code> est créé à côté de l'exécutable.</p>
+<h3>Autres lancements typiques</h3>
+<div class="code"><button class="copy" type="button" aria-label="Copier le code">Copier</button><pre><code>aitrace --since 2026-10-01 --until 2026-10-13 --tz local --out E:\cas42 --case-id CAS-42
+sudo ./aitrace --all-users --since 7d --out /media/usb/cas42
+./aitrace --root /mnt/image --out ./cas42 --collect-raw      # image montée en lecture seule
+aitrace --case CAS-42 --resume --out E:\cas42\run-02           # reprendre après la dernière analyse
+</code></pre></div>
+</section><section><h2 id="reference-des-options">Référence des options</h2>
+<p>Syntaxe : <code>aitrace [OPTIONS]</code> ou <code>aitrace &lt;COMMANDE&gt;</code>, où la commande est <code>case</code> (registre des affaires) ou <code>help</code>. Les options marquées « répétable » s'utilisent plusieurs fois.</p>
+<h3>Période et fuseaux</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Rôle</th>
+<th>Défaut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--since &lt;DEBUT&gt;</code></td>
+<td>Début de la période : <code>2026-10-01</code>, <code>2026-10-01T14:30</code>, <code>"2026-10-01 14:30"</code> ou relatif <code>30m</code>, <code>24h</code>, <code>7d</code>, <code>2w</code></td>
+<td>Aucune borne</td>
+</tr>
+<tr>
+<td><code>--until &lt;FIN&gt;</code></td>
+<td>Fin de la période, même format ; une date seule inclut toute la journée</td>
+<td>Aucune borne</td>
+</tr>
+<tr>
+<td><code>--tz &lt;TZ&gt;</code></td>
+<td>Fuseau pour interpréter les dates et afficher le rapport : <code>UTC</code>, <code>local</code>, <code>+02:00</code></td>
+<td><code>UTC</code></td>
+</tr>
+<tr>
+<td><code>--log-tz &lt;TZ&gt;</code></td>
+<td>Fuseau des journaux Claude Desktop qui n'en indiquent pas</td>
+<td><code>local</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Périmètre</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Rôle</th>
+<th>Défaut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--all-users</code></td>
+<td>Analyser tous les profils de la machine (administrateur ou root conseillé)</td>
+<td>Profil courant</td>
+</tr>
+<tr>
+<td><code>--root &lt;CHEMIN&gt;</code></td>
+<td>Racine d'une image disque montée en lecture seule (hors ligne) ; implique <code>--all-users</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--claude-dir &lt;DIR&gt;</code></td>
+<td>Dossier Claude Code à analyser explicitement (répétable)</td>
+<td>Détection auto</td>
+</tr>
+<tr>
+<td><code>--desktop-dir &lt;DIR&gt;</code></td>
+<td>Dossier Claude Desktop à analyser explicitement (répétable)</td>
+<td>Détection auto</td>
+</tr>
+<tr>
+<td><code>--project &lt;TEXTE&gt;</code></td>
+<td>Ne garder que les projets dont le chemin contient ce texte</td>
+<td>Tous</td>
+</tr>
+<tr>
+<td><code>--session &lt;PREFIXE&gt;</code></td>
+<td>Ne garder que la session dont l'identifiant commence par ce préfixe</td>
+<td>Toutes</td>
+</tr>
+<tr>
+<td><code>--no-thinking</code></td>
+<td>Exclure les blocs de raisonnement de la chronologie</td>
+<td>Inclus</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Sortie et preuves</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Rôle</th>
+<th>Défaut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-o</code>, <code>--out &lt;DIR&gt;</code></td>
+<td>Dossier de sortie, nouveau ou vide</td>
+<td><code>rapport-…</code> à côté de l'exécutable</td>
+</tr>
+<tr>
+<td><code>--collect-raw</code></td>
+<td>Copier les sources dans <code>&lt;out&gt;/evidence</code>, à partir des octets déjà lus et hachés</td>
+<td>Non</td>
+</tr>
+<tr>
+<td><code>--redact</code></td>
+<td>Masquer les secrets apparents (clés, jetons) dans le rapport, pour une diffusion</td>
+<td>Non</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Affaire et chaîne de possession</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Rôle</th>
+<th>Défaut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--case-id &lt;REF&gt;</code></td>
+<td>Référence de l'affaire affichée dans le rapport</td>
+<td>Vide</td>
+</tr>
+<tr>
+<td><code>--examiner &lt;NOM&gt;</code></td>
+<td>Nom de l'examinateur (répétable)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--case-desc &lt;TEXTE&gt;</code></td>
+<td>Description libre de l'affaire</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--seal &lt;NUM&gt;</code></td>
+<td>Numéro de scellé de la preuve (répétable)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--tag &lt;MOT&gt;</code></td>
+<td>Mot-clé de classement (répétable)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--case-file &lt;JSON&gt;</code></td>
+<td>Fiche d'affaire préremplie ; les options ci-dessus la complètent ou la surchargent</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--case &lt;REF&gt;</code></td>
+<td>Rattacher l'analyse à une affaire du registre (créée si absente)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--registry &lt;CHEMIN&gt;</code></td>
+<td>Emplacement du registre des affaires</td>
+<td><code>~/.aitrace/cases.json</code></td>
+</tr>
+<tr>
+<td><code>--resume</code></td>
+<td>Avec <code>--case</code> : reprendre après la dernière analyse (fixe <code>--since</code>)</td>
+<td>Non</td>
+</tr>
+<tr>
+<td><code>--note &lt;TEXTE&gt;</code></td>
+<td>Commentaire attaché à cette analyse</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--no-input</code></td>
+<td>Ne jamais poser de questions, même sur un terminal</td>
+<td>Non</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Journaux système et corrélation</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Rôle</th>
+<th>Défaut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--no-system-logs</code></td>
+<td>Ne pas analyser les journaux du système</td>
+<td>Analysés</td>
+</tr>
+<tr>
+<td><code>--evtx-dir</code>, <code>--evtx &lt;CHEMIN&gt;</code></td>
+<td>Dossier ou fichier <code>.evtx</code> isolé (répétable)</td>
+<td><code>winevt\Logs</code> du système ou de <code>--root</code></td>
+</tr>
+<tr>
+<td><code>--syslog-dir</code>, <code>--syslog &lt;CHEMIN&gt;</code></td>
+<td>Dossier ou fichier de journal texte Linux/macOS (répétable)</td>
+<td><code>/var/log</code></td>
+</tr>
+<tr>
+<td><code>--journal-json &lt;FICHIER&gt;</code></td>
+<td>Export <code>journalctl -o json</code> à analyser (répétable)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--window &lt;SEC&gt;</code></td>
+<td>Marge autour des périodes d'activité IA pour la corrélation</td>
+<td><code>300</code></td>
+</tr>
+<tr>
+<td><code>--slack &lt;SEC&gt;</code></td>
+<td>Tolérance pour rattacher un processus système à une commande IA</td>
+<td><code>10</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Détection et automatisation</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Rôle</th>
+<th>Défaut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ioc &lt;FICHIER&gt;</code></td>
+<td>Liste d'IOC à recouper : un hôte, une IP ou un SHA-256 par ligne (répétable)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--fail-on &lt;NIVEAU&gt;</code></td>
+<td>Code de sortie 1 si un signalement atteint <code>none</code>, <code>low</code>, <code>medium</code> ou <code>high</code></td>
+<td><code>none</code></td>
+</tr>
+<tr>
+<td><code>-h</code>, <code>--help</code></td>
+<td>Afficher l'aide</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>-V</code>, <code>--version</code></td>
+<td>Afficher la version</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>La sortie console est colorée sur un terminal. Les couleurs sont désactivées en pipe ou en redirection, et respectent la variable <code>NO_COLOR</code>.</p>
+</section><section><h2 id="gestion-des-affaires">Gestion des affaires</h2>
+<p>Un registre unique, un seul fichier JSON, regroupe toutes les affaires et l'historique de leurs analyses. On retrouve ainsi une affaire et on reprend là où on s'était arrêté.</p>
+<p>Emplacement par défaut : <code>~/.aitrace/cases.json</code>. On le déplace avec <code>--registry &lt;chemin&gt;</code>, par exemple vers le poste de l'examinateur ou un support externe.</p>
+<h3>Sous-commandes</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Commande</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>aitrace case new &lt;REF&gt; [--case-desc …] [--examiner …]</code></td>
+<td>Créer une affaire ; sans référence, création guidée question par question</td>
+</tr>
+<tr>
+<td><code>aitrace case list</code></td>
+<td>Lister les affaires</td>
+</tr>
+<tr>
+<td><code>aitrace case show &lt;REF&gt;</code></td>
+<td>Afficher la fiche, les machines analysées et l'historique par machine</td>
+</tr>
+<tr>
+<td><code>aitrace case note &lt;REF&gt; "&lt;texte&gt;"</code></td>
+<td>Ajouter un commentaire horodaté à l'affaire</td>
+</tr>
+<tr>
+<td><code>aitrace case rm &lt;REF&gt;</code></td>
+<td>Retirer l'affaire du registre ; les rapports produits sont conservés</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Rattacher une analyse</h3>
+<p>Avec <code>--case &lt;REF&gt;</code>, l'analyse est enregistrée dans l'historique de l'affaire, qui est créée si elle n'existe pas. Sont consignés : les bornes de période, le dossier de sortie, les nombres d'événements et de signalements, l'empreinte agrégée des sources et la ligne de commande.</p>
+<ul>
+<li>Une affaire peut couvrir <strong>plusieurs machines</strong> : chaque analyse enregistre la machine analysée.</li>
+<li><code>--note</code> attache un commentaire à une analyse précise ; <code>case note</code> en attache un à l'affaire entière.</li>
+</ul>
+<h3>Reprise avec <code>--resume</code></h3>
+<p><code>--resume</code> cale <code>--since</code> sur la fin de la fenêtre analysée la dernière fois. À défaut de borne, il prend l'heure de cette analyse. Un <code>--since</code> explicite reste prioritaire.</p>
+<div class="code"><button class="copy" type="button" aria-label="Copier le code">Copier</button><pre><code>aitrace --case CAS-42 --since 7d --out E:\cas42\run-01
+aitrace --case CAS-42 --resume --out E:\cas42\run-02
+</code></pre></div>
+<h3>Mode interactif</h3>
+<p>Lancé depuis un terminal sans <code>--case</code> ni <code>--case-id</code>, l'outil propose un menu : quitter, créer une affaire, reprendre une affaire existante, ou n'en associer aucune. En création, il demande la référence, la description, les examinateurs, les scellés, les mots-clés, le dossier de sortie et un commentaire facultatif.</p>
+<p>Les questions ne se posent que sur un vrai terminal. En pipe, en tâche planifiée ou depuis un script, rien n'est demandé. <code>--no-input</code> force ce silence même sur un terminal ; la référence d'affaire doit alors être passée en argument.</p>
+</section><section><h2 id="fiche-d-affaire-et-chaine-de-possession">Fiche d'affaire et chaîne de possession</h2>
+<p>La fiche d'affaire contient la référence, la description, les examinateurs, les numéros de scellé et les mots-clés. Elle se renseigne de trois façons combinables, de la base vers la surcharge :</p>
+<ol>
+<li>Le <strong>registre</strong>, via <code>--case</code>.</li>
+<li>Un <strong>fichier réutilisable</strong>, via <code>--case-file &lt;JSON&gt;</code>.</li>
+<li>Les <strong>options</strong> <code>--case-id</code>, <code>--case-desc</code>, <code>--examiner</code>, <code>--seal</code>, <code>--tag</code>.</li>
+</ol>
+<p>Les options complètent les listes (examinateurs, scellés, mots-clés), qui sont fusionnées et dédoublonnées. Elles surchargent les valeurs uniques (référence, description).</p>
+<div class="code"><button class="copy" type="button" aria-label="Copier le code">Copier</button><pre><code>aitrace --case-id CAS-42 --examiner &quot;J. Brochard&quot; --examiner &quot;A. Dupont&quot; \
+        --case-desc &quot;Poste RH compromis&quot; --seal SCELLE-7 --tag phishing \
+        --out E:\cas42
+</code></pre></div>
+<p>À chaque analyse, la fiche est écrite dans <code>case.json</code>, réutilisable tel quel avec <code>--case-file</code>.</p>
+<h3>Section « Chaîne de possession » du rapport</h3>
+<p>Elle reprend la fiche et les conditions d'exécution :</p>
+<ul>
+<li>outil et version ;</li>
+<li>mode : système en fonctionnement ou image hors ligne ;</li>
+<li>machine, compte et horodatages de l'analyse ;</li>
+<li>ligne de commande complète ;</li>
+<li>nombre de sources lues ;</li>
+<li><strong>empreinte SHA-256 agrégée</strong> de l'ensemble des sources : un condensé unique qui change dès qu'une source change, est ajoutée ou retirée.</li>
+</ul>
+<p>Le dossier de sortie reste auto-contenu. Seul le registre, hors du dossier de sortie, est mis à jour, et uniquement avec <code>--case</code>.</p>
+</section><section><h2 id="sources-analysees">Sources analysées</h2>
+<p>Les dossiers sont recherchés selon les conventions des trois OS. On peut donc analyser depuis Windows une image macOS ou Linux, et inversement.</p>
+<h3>Claude Code</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Emplacement</th>
+<th>Contenu exploité</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>~/.claude/projects/**/*.jsonl</code></td>
+<td>Transcripts, sous-agents compris : prompts, réponses, appels d'outils (commandes, fichiers, web, MCP), résultats, erreurs, modèle, version, mode de permissions, coût</td>
+</tr>
+<tr>
+<td><code>~/.claude/history.jsonl</code></td>
+<td>Historique des prompts saisis, contenus collés compris</td>
+</tr>
+<tr>
+<td><code>settings*.json</code>, <code>CLAUDE.md</code>, <code>agents/</code>, <code>commands/</code>, <code>skills/</code>, <code>plugins/</code></td>
+<td>Hooks, permissions, instructions persistantes, extensions</td>
+</tr>
+<tr>
+<td><code>~/.claude.json</code></td>
+<td>Serveurs MCP et réglages par projet ; valeurs sensibles masquées</td>
+</tr>
+<tr>
+<td><code>.claude/</code>, <code>.mcp.json</code>, <code>CLAUDE.md</code> des projets touchés</td>
+<td>Configuration propre à chaque projet</td>
+</tr>
+<tr>
+<td><code>file-history/</code>, <code>shell-snapshots/</code>, <code>todos/</code>, <code>debug/</code>…</td>
+<td>Inventaire : nombre de fichiers, taille, dates, fichiers dans la période</td>
+</tr>
+<tr>
+<td><code>.credentials.json</code></td>
+<td><strong>Jamais lu</strong> ; seule son existence est consignée</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Claude Desktop</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>OS</th>
+<th>Emplacement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td><code>%APPDATA%\Claude</code></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td><code>~/Library/Application Support/Claude</code>, <code>~/Library/Logs/Claude</code></td>
+</tr>
+<tr>
+<td>Linux</td>
+<td><code>~/.config/Claude</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Contenu exploité : journaux applicatifs et MCP (appels <code>tools/call</code>), <code>claude_desktop_config.json</code>, extensions, sessions <code>.jsonl</code>.</p>
+</section><section><h2 id="correlation-avec-les-journaux-systeme">Corrélation avec les journaux système</h2>
+<p>L'outil lit les journaux de l'OS et les recoupe avec l'activité de l'IA. Il faut le lancer en administrateur ou en root pour y accéder. Les événements retenus entrent aussi dans la chronologie générale, avec le type <code>system_log</code>.</p>
+<h3>Journaux lus</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Système</th>
+<th>Journaux</th>
+<th>Événements retenus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td><code>winevt\Logs</code> : Security, System, PowerShell, Sysmon, TaskScheduler, Defender, RDP</td>
+<td>Processus (4688, Sysmon 1), scripts PowerShell (4104, 400), sessions, comptes et groupes, services, tâches planifiées, Defender, effacements de journal (1102, 104), réseau, fichiers et registre (Sysmon)</td>
+</tr>
+<tr>
+<td>Linux / macOS</td>
+<td><code>/var/log</code> : <code>auth.log</code>, <code>secure</code>, <code>syslog</code>, <code>messages</code>, <code>system.log</code>, <code>audit/audit.log</code> (<code>.gz</code> compris) ; export <code>journalctl -o json</code></td>
+<td>sudo, su, SSH, sessions, gestion des comptes, cron, exécutions (auditd EXECVE), commandes privilégiées</td>
+</tr>
+<tr>
+<td>Tous</td>
+<td>Historiques bash, zsh, fish et PowerShell des utilisateurs</td>
+<td>Commandes saisies par un humain, quand elles sont horodatées</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Analyses produites</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Analyse</th>
+<th>Ce qu'elle montre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Périodes d'activité IA</td>
+<td>Rafales d'événements IA, élargies de la marge <code>--window</code> (300 s par défaut)</td>
+</tr>
+<tr>
+<td>Attribution</td>
+<td>Chaque processus système rattaché à la commande IA qui l'a lancé (texte et heure, tolérance <code>--slack</code>) ou à l'arbre de processus de Claude</td>
+</tr>
+<tr>
+<td><strong>Activité non attribuée</strong></td>
+<td>Ce qui s'est passé pendant les périodes d'IA sans venir de l'IA. <strong>C'est la liste à examiner en priorité.</strong></td>
+</tr>
+<tr>
+<td>Commandes IA sans trace système</td>
+<td>Commandes lancées par l'IA, journalisation active, mais sans processus correspondant</td>
+</tr>
+<tr>
+<td>Intégrité des journaux</td>
+<td>Effacements, journaux commençant après le début de l'activité IA, journalisation des processus absente</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Prérequis pour recouper les commandes</h3>
+<p>La machine doit journaliser les créations de processus :</p>
+<ul>
+<li><strong>Windows</strong> : audit 4688 avec ligne de commande, ou Sysmon.</li>
+<li><strong>Linux</strong> : auditd avec une règle <code>execve</code>.</li>
+</ul>
+<p>Sans cela, le rapport le signale et la corrélation reste partielle.</p>
+</section><section><h2 id="detections-et-scenarios">Détections et scénarios</h2>
+<p>Après la collecte, l'outil parcourt les événements, hors ligne et sans dépendance, et produit des signalements classés par gravité. La détection est heuristique : elle oriente l'examen sans décider. Chaque signalement renvoie à sa source (<code>fichier:ligne</code>).</p>
+<h3>Catégories</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Catégorie</th>
+<th>Ce qui est examiné</th>
+<th>Exemples de signaux</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Injection de prompt</td>
+<td>Contenu arrivé par un canal non fiable : sortie d'outil, fichier lu, page web, résultat MCP, pièce jointe, notification. Les prompts de l'humain et les réponses du modèle ne sont pas scrutés.</td>
+<td>« ignore previous instructions » et variantes FR, redéfinition de rôle, extraction du prompt système, consignes d'exfiltration ou de dissimulation, jailbreak</td>
+</tr>
+<tr>
+<td>Caractères Unicode masqués</td>
+<td>Tout contenu non fiable, et les prompts (canal d'exfiltration)</td>
+<td>Caractères de balise Unicode (« ASCII smuggling », message décodé dans le rapport), caractères de largeur nulle, contrôles bidirectionnels</td>
+</tr>
+<tr>
+<td>Commande suspecte</td>
+<td>Commandes Bash/PowerShell lancées par l'IA et commandes relevées dans les journaux système</td>
+<td><code>curl … \| sh</code>, <code>-EncodedCommand</code>, base64, reverse shell (<code>/dev/tcp</code>, <code>nc -e</code>), vol d'identifiants (LSASS, SAM, <code>/etc/shadow</code>, clés SSH), effacement de journaux, neutralisation des défenses, persistance, création de comptes, exfiltration, destruction</td>
+</tr>
+<tr>
+<td>Contenu collé</td>
+<td>Texte collé dans les prompts (<code>pastedContents</code>), traité comme non fiable</td>
+<td>Mêmes motifs que l'injection</td>
+</tr>
+<tr>
+<td>Indicateur de compromission</td>
+<td>Avec <code>--ioc</code> : hôtes et IP des accès réseau, empreintes SHA-256 des sources</td>
+<td>Hôte ou empreinte présent dans la liste</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Règles de gravité</h3>
+<ul>
+<li>Une commande suspecte exécutée en mode <code>bypassPermissions</code> voit sa gravité relevée, et le mode est cité dans la justification.</li>
+<li>Le mode <code>acceptEdits</code> est signalé sans aggraver.</li>
+</ul>
+<h3>Déobfuscation</h3>
+<p>Une commande encodée (base64, <code>-EncodedCommand</code>) est décodée, affichée en clair et analysée à son tour. Un <code>IEX</code> / <code>DownloadString</code> caché déclenche donc les règles correspondantes. Une commande tronquée se déplie dans le rapport (« Voir en entier »).</p>
+<h3>Cartographie</h3>
+<p>Chaque signalement porte ses techniques <strong>MITRE ATT&amp;CK</strong> (ex. T1059, T1552.004, T1070.001) et sa catégorie <strong>OWASP LLM / ASI</strong> (ex. LLM01:2025 Prompt Injection, LLM06:2025 Excessive Agency).</p>
+<h3>Scénarios (injection → action)</h3>
+<p>L'outil relie une injection reçue par un canal non fiable aux actions de la même session survenues dans les 5 minutes suivantes : commande, modification de fichier, accès réseau, lecture de fichier sensible.</p>
+<p>On obtient un récit plutôt qu'une liste : « injection reçue à T, lecture d'une clé SSH à T+6 s, envoi réseau à T+13 s ». Ces scénarios figurent dans la section « Scénarios » du rapport et dans <code>chains.json</code>.</p>
+</section><section><h2 id="rapport-produit">Rapport produit</h2>
+<p>Le dossier de sortie est auto-contenu. <code>report.html</code> sert à la lecture humaine, les fichiers JSON à l'outillage, et <code>SHA256SUMS.txt</code> à vérifier l'ensemble.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Fichier</th>
+<th>Contenu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>report.html</code></td>
+<td>Rapport autonome, sans ressource externe, protégé par une CSP stricte, avec thème clair/sombre automatique</td>
+</tr>
+<tr>
+<td><code>events.json</code> / <code>events.csv</code></td>
+<td>Chronologie complète ; le CSV neutralise les formules (pas d'injection Excel)</td>
+</tr>
+<tr>
+<td><code>sessions.json</code>, <code>config.json</code>, <code>inventory.json</code></td>
+<td>Sessions, configuration et inventaire structurés</td>
+</tr>
+<tr>
+<td><code>case.json</code></td>
+<td>Fiche d'affaire, réutilisable avec <code>--case-file</code></td>
+</tr>
+<tr>
+<td><code>findings.json</code></td>
+<td>Signalements avec mapping ATT&amp;CK / OWASP</td>
+</tr>
+<tr>
+<td><code>findings.sarif.json</code></td>
+<td>Mêmes signalements au format SARIF 2.1.0</td>
+</tr>
+<tr>
+<td><code>chains.json</code></td>
+<td>Scénarios d'attaque (injection → actions)</td>
+</tr>
+<tr>
+<td><code>system_events.json</code></td>
+<td>Événements système retenus</td>
+</tr>
+<tr>
+<td><code>log_coverage.json</code></td>
+<td>Couverture de chaque journal</td>
+</tr>
+<tr>
+<td><code>correlation.json</code></td>
+<td>Résultats de la corrélation</td>
+</tr>
+<tr>
+<td><code>manifest.json</code></td>
+<td>Contexte d'exécution et SHA-256 de chaque source</td>
+</tr>
+<tr>
+<td><code>SHA256SUMS.txt</code></td>
+<td>Empreintes des fichiers du rapport</td>
+</tr>
+<tr>
+<td><code>evidence/</code></td>
+<td>Copie des sources, avec <code>--collect-raw</code> uniquement</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Sections de <code>report.html</code></h3>
+<p>Une navigation par ancres en tête mène aux sections principales : Contexte, Chaîne de possession, Intégrité des sources, Synthèse, Détections, Chronologie.</p>
+<p>Le rapport contient aussi : corrélation système, sessions, outils, fichiers modifiés, commandes, accès réseau et MCP, configuration, inventaire et manifeste de preuve. Les détections sont filtrables par gravité et liées à la chronologie, elle-même filtrable.</p>
+<h3>Vérifier l'intégrité du rapport</h3>
+<div class="code"><button class="copy" type="button" aria-label="Copier le code">Copier</button><pre><code># Linux / macOS
+cd /media/usb/cas42 &amp;&amp; sha256sum -c SHA256SUMS.txt
+
+# Windows (PowerShell), fichier par fichier
+Get-FileHash .\report.html -Algorithm SHA256
+</code></pre></div>
+</section><section><h2 id="recettes">Recettes</h2>
+<h3>Poste en fonctionnement (live)</h3>
+<p>Lancer depuis une clé USB, en administrateur ou root, vers un dossier de sortie sur la clé. Fermer Claude si possible, pour éviter que des fichiers changent pendant la lecture.</p>
+<div class="code"><button class="copy" type="button" aria-label="Copier le code">Copier</button><pre><code>aitrace.exe --case CAS-42 --all-users --since 7d --tz local --collect-raw --out E:\cas42\run-01
+sudo ./aitrace --case CAS-42 --all-users --since 7d --collect-raw --out /media/usb/cas42/run-01
+</code></pre></div>
+<h3>Image disque montée (hors ligne)</h3>
+<p>Monter l'image en lecture seule, puis pointer sa racine. <code>--root</code> implique <code>--all-users</code> ; les dossiers Claude, EVTX et <code>/var/log</code> sont cherchés sous cette racine.</p>
+<div class="code"><button class="copy" type="button" aria-label="Copier le code">Copier</button><pre><code>./aitrace --root /mnt/image --out ./cas42 --collect-raw
+./aitrace --root /mnt/image --claude-dir /mnt/image/home/alice/.claude --out ./cas42-alice
+</code></pre></div>
+<h3>Artefacts isolés</h3>
+<p><code>--evtx</code> et <code>--syslog</code> acceptent un dossier ou un fichier unique, même renommé. Un EVTX est reconnu par son contenu. Un fichier texte est traité en syslog, ou en auditd si son nom le suggère. Un chemin introuvable est signalé dans les remarques sans interrompre l'analyse.</p>
+<div class="code"><button class="copy" type="button" aria-label="Copier le code">Copier</button><pre><code>aitrace --evtx E:\preuves\Security.evtx --syslog E:\preuves\auth.log --out E:\cas42
+aitrace --journal-json E:\preuves\journal.json --out E:\cas42
+</code></pre></div>
+<h3>Cibler une session ou un projet</h3>
+<div class="code"><button class="copy" type="button" aria-label="Copier le code">Copier</button><pre><code>aitrace --project webapp --since 2026-10-10 --until 2026-10-12 --out E:\cas42\webapp
+aitrace --session 3f2a9c --out E:\cas42\session-3f2a9c
+</code></pre></div>
+<h3>Rapport à diffuser</h3>
+<div class="code"><button class="copy" type="button" aria-label="Copier le code">Copier</button><pre><code>aitrace --case CAS-42 --redact --no-thinking --out E:\cas42\diffusion
+</code></pre></div>
+<h3>Automatisation et codes de sortie</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Analyse terminée, aucun signalement au niveau de <code>--fail-on</code></td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>Au moins un signalement atteint la gravité de <code>--fail-on</code></td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>Erreur d'exécution</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><button class="copy" type="button" aria-label="Copier le code">Copier</button><pre><code>aitrace --no-input --case CAS-42 --since 24h --ioc iocs.txt --fail-on high --out /srv/aitrace/$(date +%F)
+</code></pre></div>
+</section><section><h2 id="limites-connues-et-bonnes-pratiques">Limites connues et bonnes pratiques</h2>
+<h3>Limites (v1)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Limite</th>
+<th>Conséquence</th>
+<th>Ce qu'on peut faire</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fichiers modifiés pendant la lecture sur un système en fonctionnement</td>
+<td>Signalés dans le manifeste</td>
+<td>Fermer Claude avant l'analyse, ou travailler sur une image</td>
+</tr>
+<tr>
+<td>Conversations « chat » de Claude Desktop stockées côté serveur</td>
+<td>Caches Electron (IndexedDB, Local Storage) inventoriés mais pas encore décodés</td>
+<td>Demander l'export côté compte si nécessaire</td>
+</tr>
+<tr>
+<td>Purge automatique des transcripts (<code>cleanupPeriodDays</code>, 30 jours par défaut)</td>
+<td>Sessions de <code>history.jsonl</code> sans transcript, signalées par l'outil</td>
+<td>Intervenir vite ; chercher des copies plus anciennes (sauvegardes, clichés)</td>
+</tr>
+<tr>
+<td>Détection heuristique (correspondance de motifs)</td>
+<td>Faux positifs et faux négatifs possibles</td>
+<td>Toujours revenir à la source <code>fichier:ligne</code> avant de conclure</td>
+</tr>
+<tr>
+<td><code>O_NOATIME</code> sous Linux seulement</td>
+<td>Sous Windows et macOS, la lecture peut mettre à jour l'atime (contenu inchangé, haché et revérifié)</td>
+<td>Pour une lecture strictement inaltérée, analyser une image montée en lecture seule</td>
+</tr>
+<tr>
+<td>Registre écrit de façon atomique, mais sans verrou</td>
+<td>Deux exécutions simultanées sur le même registre peuvent se télescoper</td>
+<td>Un seul examinateur à la fois par registre, surtout sur un support partagé</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Bonnes pratiques</h3>
+<ul>
+<li>Préférer l'analyse d'une <strong>image montée en lecture seule</strong> dès que l'affaire peut aller au contentieux.</li>
+<li>Lancer en <strong>administrateur / root</strong> pour obtenir la corrélation système.</li>
+<li>Vérifier dans le rapport la section <strong>Intégrité des journaux</strong> avant d'interpréter l'absence d'une trace.</li>
+<li>Utiliser <code>--tz local</code> pour un rapport lisible, et noter le fuseau retenu dans la fiche d'affaire.</li>
+<li>Activer <code>--collect-raw</code> pour conserver les sources avec le rapport.</li>
+<li>Diffuser uniquement des rapports produits avec <code>--redact</code>.</li>
+<li>Archiver le dossier de sortie complet, avec <code>SHA256SUMS.txt</code> et <code>manifest.json</code>.</li>
+</ul></section>
+  <footer>© 2026 Joam Brochard De La Calle (RedKey) · Tous droits réservés · <a href="mentions-legales.html">Mentions légales</a></footer>
+</main>
+</div>
+<script>
+(function () {
+  var tv = document.getElementById('tuto1'), tb = document.getElementById('tuto1-play');
+  if (tv && tb) {
+    tb.addEventListener('click', function () { tv.setAttribute('controls', ''); tb.remove(); tv.play(); });
+  }
+  document.querySelectorAll('.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var code = btn.parentElement.querySelector('code').innerText;
+      var done = function (ok) { btn.textContent = ok ? 'Copié' : 'Sélectionné'; setTimeout(function () { btn.textContent = 'Copier'; }, 1500); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(function () { done(true); }, function () { select(); done(false); });
+      } else { select(); done(false); }
+      function select() { var r = document.createRange(); r.selectNodeContents(btn.parentElement.querySelector('code')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+    });
+  });
+  var menu = document.querySelector('.menu-btn'), nav = document.getElementById('toc');
+  menu.addEventListener('click', function () {
+    var open = nav.classList.toggle('open');
+    menu.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  nav.addEventListener('click', function (e) { if (e.target.closest('a')) { nav.classList.remove('open'); menu.setAttribute('aria-expanded', 'false'); } });
+  var links = {};
+  nav.querySelectorAll('a').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          Object.values(links).forEach(function (a) { a.classList.remove('active'); });
+          var a = links[en.target.id]; if (a) a.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    document.querySelectorAll('main h2[id]').forEach(function (h) { obs.observe(h); });
+  }
+})();
+</script>
+</body>
+</html>
