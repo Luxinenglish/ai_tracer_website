@@ -98,11 +98,9 @@ Rapport écrit dans E:\cas42\run-01 :</div>
                 if (!v || !b) return;
                 b.addEventListener('click', function(){
                     v.setAttribute('controls', '');
+                    b.remove();
                     v.play();
-                    b.style.display = 'none';
                 });
-                v.addEventListener('pause', function(){ b.style.display = ''; });
-                v.addEventListener('play', function(){ b.style.display = 'none'; });
             })();
         </script>
     </section>
